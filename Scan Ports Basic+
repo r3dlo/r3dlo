@@ -1,0 +1,43 @@
+import socket
+from datetime import datetime
+
+def scan_port(ip, port):
+    # Creamos un socket de tipo TCP
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.settimeout(1) # Tiempo de espera por cada intento de conexión
+
+    #Intentamos conectarnos al puerto
+
+    result = sock.connect_ex((ip,port))
+
+    if result == 0:
+        print(f"Port {port}: OPEN")
+    else:
+        print (f"Port {port}: CLO SED")
+
+    sock.close()
+    # Función principal
+def run_port_scan(target_ip, port_range):
+    print(f"Starting scan on {target_ip}")
+    print(f"Scanning ports: {port_range}")
+    start_time = datetime.now()
+
+    for port in port_range:
+        scan_port(target_ip, port)
+
+    end_time = datetime.now()
+    total_time = end_time - start_time
+    print(f"Scan completed in {total_time}")
+
+# Especificamos la IP del objetivo y los puertos a escanear
+if __name__ == "__main__":
+    target_ip = input("Enter the IP address or domain to scan: ")
+    start_port = int(input("Enter start port: "))
+    end_port = int(input("Enter end port: "))
+
+    port_range = range(start_port, end_port + 1)
+
+    run_port_scan(target_ip, port_range)
+
+
+#by r3dlo 
